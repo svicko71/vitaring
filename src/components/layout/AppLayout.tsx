@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Activity, Bluetooth, Brain, Clock, Settings } from "lucide-react";
+import { Activity, Bluetooth, Brain, Clock, Settings, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navItems = [
   { to: "/", icon: Activity, label: "Dashboard" },
-  { to: "/pairing", icon: Bluetooth, label: "Pairing" },
+  { to: "/chat", icon: Bot, label: "Chat" },
   { to: "/insights", icon: Brain, label: "Insights" },
   { to: "/history", icon: Clock, label: "History" },
   { to: "/settings", icon: Settings, label: "Settings" },
