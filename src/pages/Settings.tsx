@@ -14,6 +14,7 @@ export default function SettingsPage() {
   const [displayName, setDisplayName] = useState("");
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   // Notification prefs (local for now)
   const [notifHighHR, setNotifHighHR] = useState(true);
