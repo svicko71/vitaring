@@ -12,6 +12,7 @@ import Insights from "./pages/Insights";
 import History from "./pages/History";
 import SettingsPage from "./pages/Settings";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 
@@ -28,7 +29,14 @@ function AppRoutes() {
     );
   }
 
-  if (!user) return <Auth />;
+  if (!user) {
+    return (
+      <Routes>
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="*" element={<Auth />} />
+      </Routes>
+    );
+  }
 
   return (
     <AppLayout>

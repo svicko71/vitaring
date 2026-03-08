@@ -6,7 +6,7 @@ import { saveReading } from "@/services/healthDataService";
 
 const INTERVAL_MS = 3000;
 const MAX_LIVE_READINGS = 60; // last 3 minutes
-const PERSIST_EVERY_N = 10; // persist every 10th reading (~30s)
+const PERSIST_EVERY_N = 1; // persist every reading
 
 export function useHealthStream() {
   const [currentReading, setCurrentReading] = useState<HealthReading>(generateReading());
