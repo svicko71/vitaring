@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Activity, Bluetooth, Brain, Clock, LogOut } from "lucide-react";
+import { Activity, Bluetooth, Brain, Clock, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 
