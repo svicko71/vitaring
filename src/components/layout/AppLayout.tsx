@@ -14,6 +14,7 @@ const navItems = [
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  // signOut moved to Settings page
   const { signOut } = useAuth();
 
   return (
