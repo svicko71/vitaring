@@ -9,6 +9,7 @@ const navItems = [
   { to: "/pairing", icon: Bluetooth, label: "Pairing" },
   { to: "/insights", icon: Brain, label: "Insights" },
   { to: "/history", icon: Clock, label: "History" },
+  { to: "/settings", icon: Settings, label: "Settings" },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
