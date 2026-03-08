@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
-import { generateHistoricalData } from "@/services/healthDataGenerator";
+import { fetchHistory } from "@/services/healthDataService";
+import { type HealthReading } from "@/services/healthDataGenerator";
 import { motion } from "framer-motion";
-import { Clock, Heart, Droplets, Thermometer } from "lucide-react";
+import { Clock, Heart, Droplets, Thermometer, Loader2, DatabaseZap } from "lucide-react";
 
 type Metric = "heartRate" | "spo2" | "temperature";
 
@@ -14,7 +15,15 @@ const metrics: { key: Metric; label: string; color: string; icon: React.ReactNod
 
 export default function History() {
   const [selectedMetric, setSelectedMetric] = useState<Metric>("heartRate");
-  const data = useMemo(() => generateHistoricalData(24), []);
+  const [data, setData] = useState<HealthReading[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchHistory(24).then(readings => {
+      setData(readings);
+      setLoading(false);
+    });
+  }, []);
 
   const chartData = data.map(r => ({
     time: r.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
@@ -23,10 +32,9 @@ export default function History() {
 
   const selected = metrics.find(m => m.key === selectedMetric)!;
 
-  // Averages
-  const avg = (data.reduce((s, r) => s + r[selectedMetric], 0) / data.length).toFixed(1);
-  const min = Math.min(...data.map(r => r[selectedMetric]));
-  const max = Math.max(...data.map(r => r[selectedMetric]));
+  const avg = data.length ? (data.reduce((s, r) => s + r[selectedMetric], 0) / data.length).toFixed(1) : "—";
+  const min = data.length ? Math.min(...data.map(r => r[selectedMetric])).toFixed(1) : "—";
+  const max = data.length ? Math.max(...data.map(r => r[selectedMetric])).toFixed(1) : "—";
 
   return (
     <div className="space-y-6">
@@ -36,7 +44,7 @@ export default function History() {
         </div>
         <div>
           <h1 className="text-lg font-bold text-foreground">Health History</h1>
-          <p className="text-xs text-muted-foreground">24-hour vitals overview</p>
+          <p className="text-xs text-muted-foreground">24-hour vitals from saved readings</p>
         </div>
       </motion.div>
 
@@ -58,53 +66,68 @@ export default function History() {
         ))}
       </div>
 
-      {/* Chart */}
-      <motion.div
-        key={selectedMetric}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-card p-5"
-      >
-        <h3 className="text-sm font-medium text-muted-foreground mb-4">{selected.label} — 24h Trend</h3>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 14%, 18%)" />
-            <XAxis
-              dataKey="time"
-              stroke="hsl(215, 12%, 50%)"
-              fontSize={10}
-              tickLine={false}
-              interval={Math.floor(chartData.length / 8)}
-            />
-            <YAxis stroke="hsl(215, 12%, 50%)" fontSize={10} tickLine={false} domain={["auto", "auto"]} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "hsl(220, 18%, 10%)",
-                border: "1px solid hsl(220, 14%, 18%)",
-                borderRadius: "8px",
-                color: "hsl(210, 20%, 95%)",
-                fontSize: "12px",
-              }}
-            />
-            <Line type="monotone" dataKey="value" stroke={selected.color} strokeWidth={2} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
-      </motion.div>
+      {loading ? (
+        <div className="glass-card p-12 flex flex-col items-center justify-center gap-3">
+          <Loader2 className="w-6 h-6 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Loading history…</p>
+        </div>
+      ) : data.length === 0 ? (
+        <div className="glass-card p-12 flex flex-col items-center justify-center gap-3">
+          <DatabaseZap className="w-8 h-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">No saved readings yet</p>
+          <p className="text-xs text-muted-foreground">Stay on the dashboard — readings save every ~30 seconds</p>
+        </div>
+      ) : (
+        <>
+          {/* Chart */}
+          <motion.div
+            key={selectedMetric}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card p-5"
+          >
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">{selected.label} — 24h Trend</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 14%, 18%)" />
+                <XAxis
+                  dataKey="time"
+                  stroke="hsl(215, 12%, 50%)"
+                  fontSize={10}
+                  tickLine={false}
+                  interval={Math.floor(chartData.length / 8)}
+                />
+                <YAxis stroke="hsl(215, 12%, 50%)" fontSize={10} tickLine={false} domain={["auto", "auto"]} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(220, 18%, 10%)",
+                    border: "1px solid hsl(220, 14%, 18%)",
+                    borderRadius: "8px",
+                    color: "hsl(210, 20%, 95%)",
+                    fontSize: "12px",
+                  }}
+                />
+                <Line type="monotone" dataKey="value" stroke={selected.color} strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </motion.div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
-        {[
-          { label: "Average", value: avg },
-          { label: "Min", value: min },
-          { label: "Max", value: max },
-        ].map(stat => (
-          <div key={stat.label} className="glass-card p-4 text-center">
-            <p className="text-xs text-muted-foreground">{stat.label}</p>
-            <p className="text-xl font-bold font-mono text-foreground">{stat.value}</p>
-            <p className="text-xs text-muted-foreground">{selected.unit}</p>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { label: "Average", value: avg },
+              { label: "Min", value: min },
+              { label: "Max", value: max },
+            ].map(stat => (
+              <div key={stat.label} className="glass-card p-4 text-center">
+                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="text-xl font-bold font-mono text-foreground">{stat.value}</p>
+                <p className="text-xs text-muted-foreground">{selected.unit}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }
