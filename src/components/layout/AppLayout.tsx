@@ -14,8 +14,6 @@ const navItems = [
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
-  // signOut moved to Settings page
-  const { signOut } = useAuth();
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
