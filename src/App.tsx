@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Pairing from "./pages/Pairing";
 import Insights from "./pages/Insights";
 import History from "./pages/History";
+import SettingsPage from "./pages/Settings";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
