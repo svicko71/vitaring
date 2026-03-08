@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { Settings, User, Bell, Download, Save, Loader2, Check, LogOut, Sun, Moon, Monitor } from "lucide-react";
 import { toast } from "sonner";
+import { AvatarUpload } from "@/components/settings/AvatarUpload";
 
 export default function SettingsPage() {
   const { user, signOut } = useAuth();
