@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Activity, Bluetooth, Brain, Clock, Settings } from "lucide-react";
 import { motion } from "framer-motion";
-import { useAuth } from "@/hooks/useAuth";
+
 
 const navItems = [
   { to: "/", icon: Activity, label: "Dashboard" },

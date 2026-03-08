@@ -36,6 +36,7 @@ function AppRoutes() {
         <Route path="/pairing" element={<Pairing />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/history" element={<History />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppLayout>
