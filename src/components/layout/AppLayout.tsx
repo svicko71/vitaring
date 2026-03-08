@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Activity, Bluetooth, BarChart3, Clock, Brain } from "lucide-react";
+import { Activity, Bluetooth, Brain, Clock, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 
 const navItems = [
   { to: "/", icon: Activity, label: "Dashboard" },
@@ -12,6 +13,7 @@ const navItems = [
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const { signOut } = useAuth();
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -24,9 +26,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
             <span className="font-semibold text-foreground text-lg">VitaRing</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse-ring" />
-            <span className="text-xs text-muted-foreground">Simulating</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse-ring" />
+              <span className="text-xs text-muted-foreground">Simulating</span>
+            </div>
+            <button onClick={signOut} className="p-2 rounded-lg hover:bg-muted transition-colors" title="Sign out">
+              <LogOut className="w-4 h-4 text-muted-foreground" />
+            </button>
           </div>
         </div>
       </header>
