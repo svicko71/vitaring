@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchHistory } from "@/services/healthDataService";
+import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { Settings, User, Bell, Download, Save, Loader2, Check, LogOut } from "lucide-react";
+import { Settings, User, Bell, Download, Save, Loader2, Check, LogOut, Sun, Moon, Monitor } from "lucide-react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
   const { user, signOut } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [displayName, setDisplayName] = useState("");
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -131,8 +133,36 @@ export default function SettingsPage() {
         </div>
       </motion.div>
 
+      {/* Theme */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="glass-card p-5 space-y-4">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <Sun className="w-4 h-4 text-primary" />
+          Appearance
+        </div>
+        <div className="flex gap-2">
+          {[
+            { value: "light", icon: Sun, label: "Light" },
+            { value: "dark", icon: Moon, label: "Dark" },
+            { value: "system", icon: Monitor, label: "System" },
+          ].map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setTheme(opt.value)}
+              className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                theme === opt.value
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <opt.icon className="w-4 h-4" />
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </motion.div>
+
       {/* Notifications */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-5 space-y-4">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }} className="glass-card p-5 space-y-4">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Bell className="w-4 h-4 text-primary" />
           Alert Notifications
