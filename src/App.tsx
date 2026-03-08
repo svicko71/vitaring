@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Pairing from "./pages/Pairing";
 import Insights from "./pages/Insights";
 import History from "./pages/History";
+import Chat from "./pages/Chat";
 import SettingsPage from "./pages/Settings";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
