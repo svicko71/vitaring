@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchHistory } from "@/services/healthDataService";
+import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { Settings, User, Bell, Download, Save, Loader2, Check, LogOut } from "lucide-react";
+import { Settings, User, Bell, Download, Save, Loader2, Check, LogOut, Sun, Moon, Monitor } from "lucide-react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
