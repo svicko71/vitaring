@@ -110,7 +110,10 @@ export default function SettingsPage() {
           <User className="w-4 h-4 text-primary" />
           Profile
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4">
+          {user && (
+            <AvatarUpload userId={user.id} avatarUrl={avatarUrl} onUploaded={setAvatarUrl} />
+          )}
           <div>
             <label className="text-xs text-muted-foreground">Email</label>
             <p className="text-sm text-foreground mt-1">{user?.email}</p>
