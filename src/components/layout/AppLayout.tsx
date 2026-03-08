@@ -3,7 +3,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Activity, Bluetooth, Brain, Clock, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 
-
 const navItems = [
   { to: "/", icon: Activity, label: "Dashboard" },
   { to: "/pairing", icon: Bluetooth, label: "Pairing" },
@@ -17,7 +16,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container max-w-5xl mx-auto flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-2">
@@ -27,19 +25,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <span className="font-semibold text-foreground text-lg">VitaRing</span>
           </div>
           <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse-ring" />
-              <span className="text-xs text-muted-foreground">Simulating</span>
-            </div>
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse-ring" />
+            <span className="text-xs text-muted-foreground">Simulating</span>
           </div>
         </div>
       </header>
 
-      {/* Main */}
       <main className="flex-1 container max-w-5xl mx-auto px-4 py-6 pb-24">
         {children}
       </main>
 
-      {/* Bottom nav */}
       <nav className="fixed bottom-0 inset-x-0 z-50 backdrop-blur-xl bg-background/90 border-t border-border/50">
         <div className="container max-w-5xl mx-auto flex items-center justify-around h-16 px-4">
           {navItems.map(item => {
