@@ -25,11 +25,12 @@ export default function SettingsPage() {
     if (!user) return;
     supabase
       .from("profiles")
-      .select("display_name")
+      .select("display_name, avatar_url")
       .eq("id", user.id)
       .single()
       .then(({ data }) => {
         if (data?.display_name) setDisplayName(data.display_name);
+        if (data?.avatar_url) setAvatarUrl(data.avatar_url);
       });
 
     // Load notification prefs from localStorage
