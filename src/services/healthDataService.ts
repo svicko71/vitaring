@@ -45,13 +45,6 @@ export type WeeklyStats = {
   avgTemperature: number | null;
 };
 
-type WeeklyReadingRow = {
-  heart_rate: number;
-  spo2: number;
-  temperature: number;
-  recorded_at: string;
-};
-
 export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | null> {
   const {
     data: { user },
@@ -63,11 +56,10 @@ export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | 
 
   const { data, error, count } = await supabase
     .from("health_readings")
-    .select("heart_rate,spo2,temperature,recorded_at", { count: "exact" })
+    .select("*", { count: "exact" })
     .gte("recorded_at", since.toISOString())
     .order("recorded_at", { ascending: true })
-    .limit(500)
-    .returns<WeeklyReadingRow[]>();
+    .limit(500);
 
   if (error || !data) return { days, readingsCount: 0, avgHeartRate: null, avgSpo2: null, avgTemperature: null };
 
@@ -78,13 +70,13 @@ export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | 
   let spo2Sum = 0;
   let tempSum = 0;
 
-  for (const r of data) {
+  for (const r of data as any[]) {
     hrSum += Number(r.heart_rate);
     spo2Sum += Number(r.spo2);
     tempSum += Number(r.temperature);
   }
 
-  const denom = data.length || 1;
+  const denom = (data as any[]).length || 1;
   return {
     days,
     readingsCount,
@@ -93,5 +85,6 @@ export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | 
     avgTemperature: tempSum / denom,
   };
 }
+
 
 
