@@ -5,6 +5,7 @@ import { VitalCard } from "@/components/health/VitalCard";
 import { HealthScore } from "@/components/health/HealthScore";
 import { LiveChart } from "@/components/health/LiveChart";
 import { AlertBanner } from "@/components/health/AlertBanner";
+import { WeeklyStats } from "@/components/health/WeeklyStats";
 import { motion } from "framer-motion";
 
 export default function Dashboard() {
@@ -19,11 +20,7 @@ export default function Dashboard() {
       <HealthScore reading={currentReading} />
 
       {/* Live Gauges */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="glass-card p-6"
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-medium text-muted-foreground">Real-Time Vitals</h2>
           <button
@@ -38,7 +35,8 @@ export default function Dashboard() {
         <div className="flex justify-around flex-wrap gap-6">
           <CircularGauge
             value={currentReading.heartRate}
-            min={40} max={140}
+            min={40}
+            max={140}
             label="Heart Rate"
             unit="BPM"
             colorClass="gradient-heart"
@@ -46,7 +44,8 @@ export default function Dashboard() {
           />
           <CircularGauge
             value={currentReading.spo2}
-            min={85} max={100}
+            min={85}
+            max={100}
             label="Blood Oxygen"
             unit="%"
             colorClass="gradient-spo2"
@@ -54,7 +53,8 @@ export default function Dashboard() {
           />
           <CircularGauge
             value={currentReading.temperature}
-            min={35} max={40}
+            min={35}
+            max={40}
             label="Temperature"
             unit="°C"
             colorClass="gradient-temp"
@@ -87,6 +87,9 @@ export default function Dashboard() {
           trend={currentReading.temperature > 37.0 ? "up" : "stable"}
         />
       </div>
+
+      {/* Weekly Stats */}
+      <WeeklyStats />
 
       {/* Live Charts */}
       {liveReadings.length > 2 && (
