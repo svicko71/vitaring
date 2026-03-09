@@ -61,22 +61,23 @@ export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | 
     .order("recorded_at", { ascending: true })
     .limit(500);
 
-  if (error || !data) return { days, readingsCount: 0, avgHeartRate: null, avgSpo2: null, avgTemperature: null };
+  if (error) return { days, readingsCount: 0, avgHeartRate: null, avgSpo2: null, avgTemperature: null };
 
-  const readingsCount = typeof count === "number" ? count : data.length;
-  if (readingsCount === 0) return { days, readingsCount: 0, avgHeartRate: null, avgSpo2: null, avgTemperature: null };
+  const rows = ((data as unknown) as any[]) ?? [];
+  const readingsCount = typeof count === "number" ? count : rows.length;
+  if (rows.length === 0) return { days, readingsCount, avgHeartRate: null, avgSpo2: null, avgTemperature: null };
 
   let hrSum = 0;
   let spo2Sum = 0;
   let tempSum = 0;
 
-  for (const r of data as any[]) {
+  for (const r of rows) {
     hrSum += Number(r.heart_rate);
     spo2Sum += Number(r.spo2);
     tempSum += Number(r.temperature);
   }
 
-  const denom = (data as any[]).length || 1;
+  const denom = rows.length || 1;
   return {
     days,
     readingsCount,
@@ -85,6 +86,7 @@ export async function fetchWeeklyStats(days: number = 7): Promise<WeeklyStats | 
     avgTemperature: tempSum / denom,
   };
 }
+
 
 
 
