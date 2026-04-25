@@ -1,115 +1,72 @@
-  VitaRing – AI-Powered Smart Health Ring
+💍 VitaRing — Smart Ring Heart Rate Monitor
 
-VitaRing is an AI-powered wearable system designed to monitor vital heart-related metrics using a compact ring device. The project focuses on real-time health tracking, edge processing, and intelligent analysis for early detection and continuous monitoring
+A health monitoring web application that tracks and visualizes real-time heart rate (BPM) from a wearable ring device Built under hackathon constraints at Dakahlia Hackathon 2026
 
----
+🎯 Overview
+VitaRing is a health monitoring platform that reads heart rate data from a smart ring sensor, processes it in real time, and delivers live BPM readings, health zone classification, trend history, and anomaly alerts — all in a clean, medically-inspired web interface.
+Built and deployed in a single session at Dakahlia Hackathon 2026
 
-##  Overview
+🫀 How It Works
+Ring Sensor (BPM signal)
+        ↓
+  Web App (React / TypeScript)
+        ↓
+  ┌─────────────────────────────┐
+  │  Real-Time BPM Display      │
+  │  Health Zone Classification │
+  │  Session History Chart      │
+  │  Anomaly Alerts             │
+  └─────────────────────────────┘
+        ↓
+  Supabase (data persistence)
 
-VitaRing is a smart ring that collects physiological signals and processes them using embedded systems and AI models to provide real-time insights into heart health
+📊 Health Zones
+ZoneBPM RangeMeaning😴 Below Normal< 60May indicate bradycardia✅ Resting60 – 100Healthy resting heart rate🏃 Fat Burn100 – 140Light to moderate exercise💪 Cardio140 – 170Intense aerobic activity🔴 Peak> 170High intensity — monitor closely
 
-It is designed to be:
-- Lightweight and wearable
-- Privacy-focused
-- Real-time and efficient
-- Deployable on low-power hardware
+✨ Features
 
----
+💓 Live BPM display with animated pulse indicator
+📈 Session history chart — BPM trend over time
+🔔 Health alerts for abnormal readings (too high / too low)
+🌙 Dark mode UI optimized for readability
+📱 Fully responsive — mobile and desktop
+☁️ Supabase backend — data persists across sessions
 
-##  Core Features
 
--  Heart Rate Monitoring (HR)
--  Heart Variability Analysis (HRV)
--  Real-time signal processing
--  AI-based anomaly detection (future scope)
--  Low-power embedded system design
--  Wireless data transmission (Bluetooth/WiFi)
+🛠️ Tech Stack
+LayerTechnologyFrontendReact, TypeScript, Tailwind CSSBackend / DBSupabase (PostgreSQL + Auth)Build ToolViteTestingVitestDeploymentLovable AI platform
 
----
+🚀 Getting Started
+bash# Clone the repo
+git clone https://github.com/svicko71/vitaring.git
+cd vitaring
 
-##  System Architecture
+# Install dependencies
+npm install
 
-1. Sensor Layer  
-   - Collects physiological signals (pulse, blood flow)
+# Set up environment variables
+cp .env.example .env
+# Add your Supabase URL and anon key
 
-2. Embedded System  
-   - Microcontroller / Raspberry Pi (for processing)
+# Start development server
+npm run dev
 
-3. AI Processing Layer  
-   - Signal filtering  
-   - Feature extraction  
-   - Basic ML / future deep learning models
+🏆 Hackathon Context
+Built at Dakahlia Hackathon 2026 under strict time constraints — conceptualized, built, and deployed live within the hackathon window. Demonstrates the ability to ship a working health-tech product under pressure.
 
-4. Output Layer  
-   - Mobile/Web dashboard  
-   - Real-time visualization
+🔮 Roadmap
 
----
+ Bluetooth ring device integration (Web Bluetooth API)
+ HRV (Heart Rate Variability) analysis
+ Sleep tracking mode
+ PDF health report export
+ Doctor-sharing / telemedicine link feature
+ Mobile app (React Native)
 
-## 🛠️ Tech Stack
 
-- Python
-- OpenCV (if used in signal processing)
-- NumPy / SciPy
-- Embedded Systems (Raspberry Pi / Microcontroller)
-- Machine Learning (basic models / future expansion)
-- Web Interface (Lovable platform)
+👤 Author
+Youssef Salama — Computer Vision & Edge AI Engineer
+LinkedIn · GitHub
 
----
 
-##  Live Demo
-
-👉 https://vitaring.lovable.app
-
----
----
-
-##  Problem Statement
-
-Traditional health monitoring devices are:
-- Bulky (smartwatches, medical devices)
-- Expensive
-- Not continuous or comfortable
-
----
-
-## Solution
-
-VitaRing provides:
-- Continuous monitoring
-- Minimal form factor (ring)
-- Edge AI processing
-- Real-time insights
-
----
-
-##  Future Improvements
-
-- Deep learning models for heart anomaly detection
-- Integration with mobile app (iOS/Android)
-- Cloud dashboard
-- ECG-level signal processing
-- Medical-grade validation
-
----
-
-##  Privacy
-
-- Data processed locally (edge computing)
-- Minimal cloud dependency
-- User data remains private
-
----
-
-## 👨‍💻 Author
-
-Youssef Salama  
-AI Systems Builder | Applied Machine Learning | Embedded AI  
-
-GitHub: https://github.com/svicko71  
-
----
-
-##  Vision
-
-To build accessible, real-time, AI-powered health monitoring systems that can operate anywhere — from urban environments to remote areas
+⚠️ Disclaimer: VitaRing is a prototype and is not a certified medical device. Do not use for clinical diagnosis
